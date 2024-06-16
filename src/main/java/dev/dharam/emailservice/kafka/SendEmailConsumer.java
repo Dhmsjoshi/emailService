@@ -4,6 +4,7 @@ package dev.dharam.emailservice.kafka;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import dev.dharam.emailservice.kafka.dtos.SendEmailMessageDto;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.kafka.core.DefaultKafkaConsumerFactory;
 import org.springframework.stereotype.Service;
@@ -20,6 +21,8 @@ public class SendEmailConsumer {
 
     private ObjectMapper objectMapper;
     private EmailUtil emailUtil;
+    @Value("${email_service_password}")
+    private String appPassword;
 
     public SendEmailConsumer(ObjectMapper objectMapper, EmailUtil emailUtil) {
         this.objectMapper = objectMapper;
@@ -52,7 +55,7 @@ public class SendEmailConsumer {
         Authenticator auth = new Authenticator() {
             //override the getPasswordAuthentication method
             protected PasswordAuthentication getPasswordAuthentication() {
-                return new PasswordAuthentication("codeDharam@gmail.com", "puxazzjjkzpefrhi");
+                return new PasswordAuthentication("codeDharam@gmail.com", appPassword);
             }
         };
 
